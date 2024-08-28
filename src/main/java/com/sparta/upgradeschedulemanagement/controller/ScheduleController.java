@@ -42,7 +42,11 @@ public class ScheduleController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        // 수정일 기준으로 내림차순 정렬된 페이지네이션 요청을 생성
         return ResponseEntity.ok(scheduleService.getSchedules(page, size));
+    }
+
+    @DeleteMapping("/schedules/{scheduleId}")
+    public void deleteSchedule(@PathVariable Long scheduleId) {
+        scheduleService.deleteSchedule(scheduleId);
     }
 }

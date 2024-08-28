@@ -36,7 +36,7 @@ public class Schedule extends Timestamped{
         this.content = content;
     }
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
 }

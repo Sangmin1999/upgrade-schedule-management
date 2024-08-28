@@ -81,4 +81,12 @@ public class ScheduleService {
                 schedule.getModifiedAt()
         ));
     }
+
+    @Transactional
+    public void deleteSchedule(Long scheduleId) {
+        if (!scheduleRepository.existsById(scheduleId)) {
+            throw new NullPointerException("일정이 없습니다");
+        }
+        scheduleRepository.deleteById(scheduleId);
+    }
 }
