@@ -1,11 +1,11 @@
-package com.sparta.upgradeschedulemanagement.commentdto;
+package com.sparta.upgradeschedulemanagement.dto.comment.response;
 
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class CommentUpdateResponseDto {
+public class CommentDetailResponseDto {
 
     private final Long id;
     private final Long scheduleId;
@@ -14,7 +14,7 @@ public class CommentUpdateResponseDto {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    public CommentUpdateResponseDto(
+    public CommentDetailResponseDto(
             Long id,
             Long scheduleId,
             String userName,

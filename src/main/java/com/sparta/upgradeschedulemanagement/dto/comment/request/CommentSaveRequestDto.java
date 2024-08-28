@@ -1,4 +1,4 @@
-package com.sparta.upgradeschedulemanagement.commentdto;
+package com.sparta.upgradeschedulemanagement.dto.comment.request;
 
 import lombok.Getter;
 

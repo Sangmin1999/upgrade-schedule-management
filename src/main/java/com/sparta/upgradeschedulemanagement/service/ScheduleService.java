@@ -1,6 +1,11 @@
 package com.sparta.upgradeschedulemanagement.service;
 
-import com.sparta.upgradeschedulemanagement.scheduledto.*;
+import com.sparta.upgradeschedulemanagement.dto.schedule.request.ScheduleSaveRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.request.ScheduleUpdateRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.response.ScheduleDetailResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.response.SchedulePageResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.response.ScheduleSaveResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.response.ScheduleUpdateResponseDto;
 import com.sparta.upgradeschedulemanagement.entity.Schedule;
 import com.sparta.upgradeschedulemanagement.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -61,8 +66,10 @@ public class ScheduleService {
         );
     }
 
-    public Page<SchedulePageResponseDto> getSchedules(Pageable pageable) {
-        Page<Schedule> schedules = scheduleRepository.findAll(pageable);
+    public Page<SchedulePageResponseDto> getSchedules(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<Schedule> schedules = scheduleRepository.findAllByOrderByModifiedAtDesc(pageable);
 
         // Schedule 엔티티를 ScheduleResponseDto로 변환하기 위해 map 메서드 사용
         return schedules.map(schedule -> new SchedulePageResponseDto(

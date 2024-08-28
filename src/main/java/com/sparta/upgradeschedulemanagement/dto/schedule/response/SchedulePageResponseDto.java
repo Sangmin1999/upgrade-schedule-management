@@ -1,4 +1,4 @@
-package com.sparta.upgradeschedulemanagement.scheduledto;
+package com.sparta.upgradeschedulemanagement.dto.schedule.response;
 
 import lombok.Getter;
 

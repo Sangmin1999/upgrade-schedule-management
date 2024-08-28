@@ -1,11 +1,11 @@
-package com.sparta.upgradeschedulemanagement.scheduledto;
+package com.sparta.upgradeschedulemanagement.dto.schedule.response;
 
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class ScheduleSaveResponseDto {
+public class ScheduleDetailResponseDto {
 
     private final Long id;
     private final String userName;
@@ -14,7 +14,7 @@ public class ScheduleSaveResponseDto {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    public ScheduleSaveResponseDto(
+    public ScheduleDetailResponseDto(
             Long id,
             String userName,
             String title,

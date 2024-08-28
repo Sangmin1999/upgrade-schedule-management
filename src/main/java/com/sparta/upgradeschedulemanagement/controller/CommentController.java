@@ -1,6 +1,11 @@
 package com.sparta.upgradeschedulemanagement.controller;
 
-import com.sparta.upgradeschedulemanagement.commentdto.*;
+import com.sparta.upgradeschedulemanagement.dto.comment.request.CommentSaveRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.request.CommentUpdateRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentDetailResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentSaveResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentSimpleResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentUpdateResponseDto;
 import com.sparta.upgradeschedulemanagement.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +24,9 @@ public class CommentController {
         return ResponseEntity.ok(commentService.saveComment(scheduleId, requestDto));
     }
 
-    @GetMapping("/schedules/{scheduleId}/comments")
-    public ResponseEntity<List<CommentSimpleResponseDto>> getComments(@PathVariable long scheduleId) {
-        return ResponseEntity.ok(commentService.getComments(scheduleId));
+    @GetMapping("/schedules/comments")
+    public ResponseEntity<List<CommentSimpleResponseDto>> getComments() {
+        return ResponseEntity.ok(commentService.getComments());
     }
 
     @GetMapping("/comments/{commentId}")

@@ -1,6 +1,11 @@
 package com.sparta.upgradeschedulemanagement.controller;
 
-import com.sparta.upgradeschedulemanagement.scheduledto.*;
+import com.sparta.upgradeschedulemanagement.dto.schedule.request.ScheduleSaveRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.request.ScheduleUpdateRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.response.ScheduleDetailResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.response.SchedulePageResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.response.ScheduleSaveResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.response.ScheduleUpdateResponseDto;
 import com.sparta.upgradeschedulemanagement.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,17 +32,17 @@ public class ScheduleController {
 
     @PutMapping("/schedules/{scheduleId}")
     public ResponseEntity<ScheduleUpdateResponseDto> updateSchedule(@PathVariable Long scheduleId,
-                                                    @RequestBody ScheduleUpdateRequestDto requestDto
+                                                                    @RequestBody ScheduleUpdateRequestDto requestDto
     ) {
         return ResponseEntity.ok(scheduleService.updateSchedule(scheduleId, requestDto));
     }
 
     @GetMapping("/schedules")
-    public Page<SchedulePageResponseDto> getSchedules(
+    public ResponseEntity<Page<SchedulePageResponseDto>> getSchedules(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         // 수정일 기준으로 내림차순 정렬된 페이지네이션 요청을 생성
-        return scheduleService.getSchedules(PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+        return ResponseEntity.ok(scheduleService.getSchedules(page, size));
     }
 }

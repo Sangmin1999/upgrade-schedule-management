@@ -1,6 +1,11 @@
 package com.sparta.upgradeschedulemanagement.service;
 
-import com.sparta.upgradeschedulemanagement.commentdto.*;
+import com.sparta.upgradeschedulemanagement.dto.comment.request.CommentSaveRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.request.CommentUpdateRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentDetailResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentSaveResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentSimpleResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentUpdateResponseDto;
 import com.sparta.upgradeschedulemanagement.entity.Comment;
 import com.sparta.upgradeschedulemanagement.entity.Schedule;
 import com.sparta.upgradeschedulemanagement.repository.CommentRepository;
@@ -37,8 +42,7 @@ public class CommentService {
         );
     }
 
-    public List<CommentSimpleResponseDto> getComments(long scheduleId) {
-        scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("스케줄이 없습니다"));
+    public List<CommentSimpleResponseDto> getComments() {
         List<Comment> commentList = commentRepository.findAll();
         List<CommentSimpleResponseDto> dtoList = new ArrayList<>();
 

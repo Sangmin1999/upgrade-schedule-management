@@ -1,6 +1,6 @@
 package com.sparta.upgradeschedulemanagement.entity;
 
-import com.sparta.upgradeschedulemanagement.scheduledto.ScheduleSaveRequestDto;
+import com.sparta.upgradeschedulemanagement.dto.schedule.request.ScheduleSaveRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
