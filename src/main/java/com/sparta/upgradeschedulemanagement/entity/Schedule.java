@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -32,5 +35,8 @@ public class Schedule extends Timestamped{
         this.title = title;
         this.content = content;
     }
+
+    @OneToMany(mappedBy = "schedule")
+    private List<Comment> commentList = new ArrayList<>();
 
 }

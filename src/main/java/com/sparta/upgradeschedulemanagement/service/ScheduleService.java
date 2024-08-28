@@ -4,6 +4,9 @@ import com.sparta.upgradeschedulemanagement.scheduledto.*;
 import com.sparta.upgradeschedulemanagement.entity.Schedule;
 import com.sparta.upgradeschedulemanagement.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,5 +59,19 @@ public class ScheduleService {
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
         );
+    }
+
+    public Page<SchedulePageResponseDto> getSchedules(Pageable pageable) {
+        Page<Schedule> schedules = scheduleRepository.findAll(pageable);
+
+        // Schedule 엔티티를 ScheduleResponseDto로 변환하기 위해 map 메서드 사용
+        return schedules.map(schedule -> new SchedulePageResponseDto(
+                schedule.getTitle(),
+                schedule.getContent(),
+                schedule.getCommentList().size(),
+                schedule.getUserName(),
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt()
+        ));
     }
 }
