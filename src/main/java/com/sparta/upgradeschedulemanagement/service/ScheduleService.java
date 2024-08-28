@@ -1,6 +1,6 @@
 package com.sparta.upgradeschedulemanagement.service;
 
-import com.sparta.upgradeschedulemanagement.dto.*;
+import com.sparta.upgradeschedulemanagement.scheduledto.*;
 import com.sparta.upgradeschedulemanagement.entity.Schedule;
 import com.sparta.upgradeschedulemanagement.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;

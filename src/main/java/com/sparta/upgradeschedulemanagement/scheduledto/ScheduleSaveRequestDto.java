@@ -1,9 +1,9 @@
-package com.sparta.upgradeschedulemanagement.dto;
+package com.sparta.upgradeschedulemanagement.scheduledto;
 
 import lombok.Getter;
 
 @Getter
-public class ScheduleUpdateRequestDto {
+public class ScheduleSaveRequestDto {
 
     private String userName;
     private String title;

@@ -1,6 +1,6 @@
 package com.sparta.upgradeschedulemanagement.controller;
 
-import com.sparta.upgradeschedulemanagement.dto.*;
+import com.sparta.upgradeschedulemanagement.scheduledto.*;
 import com.sparta.upgradeschedulemanagement.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
