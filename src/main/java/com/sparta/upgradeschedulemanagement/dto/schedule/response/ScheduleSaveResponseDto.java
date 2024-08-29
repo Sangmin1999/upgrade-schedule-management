@@ -1,5 +1,7 @@
 package com.sparta.upgradeschedulemanagement.dto.schedule.response;
 
+import com.sparta.upgradeschedulemanagement.dto.user.UserDto;
+import com.sparta.upgradeschedulemanagement.entity.User;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -8,7 +10,7 @@ import java.time.LocalDateTime;
 public class ScheduleSaveResponseDto {
 
     private final Long id;
-    private final String userName;
+    private final UserDto user;
     private final String title;
     private final String content;
     private final LocalDateTime createdAt;
@@ -16,14 +18,14 @@ public class ScheduleSaveResponseDto {
 
     public ScheduleSaveResponseDto(
             Long id,
-            String userName,
+            UserDto user,
             String title,
             String content,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
         this.id = id;
-        this.userName = userName;
+        this.user = user;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;

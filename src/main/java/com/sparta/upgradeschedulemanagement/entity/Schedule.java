@@ -1,6 +1,5 @@
 package com.sparta.upgradeschedulemanagement.entity;
 
-import com.sparta.upgradeschedulemanagement.dto.schedule.request.ScheduleSaveRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,26 +11,27 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "schedules")
-public class Schedule extends Timestamped{
+public class Schedule extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_name")
-    private String userName;
     @Column(name = "title")
     private String title;
     @Column(name = "content")
     private String content;
 
-    public Schedule(ScheduleSaveRequestDto requestDto) {
-        this.userName = requestDto.getUserName();
-        this.title = requestDto.getTitle();
-        this.content = requestDto.getContent();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "user_id")
+    private User user;
+
+    public Schedule(String title, String content, User user) {
+        this.title = title;
+        this.content = content;
+        this.user = user;
     }
 
-    public void update(String userName, String title, String content) {
-        this.userName = userName;
+    public void update(String title, String content) {
         this.title = title;
         this.content = content;
     }
@@ -39,4 +39,6 @@ public class Schedule extends Timestamped{
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "schedule")
+    private List<Manager> managerList = new ArrayList<>();
 }

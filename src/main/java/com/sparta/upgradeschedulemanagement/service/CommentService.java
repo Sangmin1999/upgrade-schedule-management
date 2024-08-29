@@ -6,10 +6,13 @@ import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentDetailRe
 import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentSaveResponseDto;
 import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentSimpleResponseDto;
 import com.sparta.upgradeschedulemanagement.dto.comment.response.CommentUpdateResponseDto;
+import com.sparta.upgradeschedulemanagement.dto.user.UserDto;
 import com.sparta.upgradeschedulemanagement.entity.Comment;
 import com.sparta.upgradeschedulemanagement.entity.Schedule;
+import com.sparta.upgradeschedulemanagement.entity.User;
 import com.sparta.upgradeschedulemanagement.repository.CommentRepository;
 import com.sparta.upgradeschedulemanagement.repository.ScheduleRepository;
+import com.sparta.upgradeschedulemanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,18 +27,21 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public CommentSaveResponseDto saveComment(Long scheduleId, CommentSaveRequestDto requestDto) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("스케줄이 없습니다"));
-        Comment newComment = new Comment(requestDto.getUserName(), requestDto.getContent());
+
+        User user = userRepository.findById(requestDto.getUserId()).orElseThrow(() -> new NullPointerException("User not foound."));
+        Comment newComment = new Comment(requestDto.getContent(),user);
         newComment.saveSchedule(schedule);
         Comment savedComment = commentRepository.save(newComment);
 
         return new CommentSaveResponseDto(
                 savedComment.getId(),
                 schedule.getId(),
-                savedComment.getUserName(),
+                new UserDto(user.getId(),user.getUsername(),user.getEmail()),
                 savedComment.getContent(),
                 savedComment.getCreatedAt(),
                 savedComment.getModifiedAt()
@@ -47,10 +53,11 @@ public class CommentService {
         List<CommentSimpleResponseDto> dtoList = new ArrayList<>();
 
         for (Comment comment : commentList) {
+            User user = comment.getUser();
             CommentSimpleResponseDto dto = new CommentSimpleResponseDto(
                     comment.getId(),
                     comment.getSchedule().getId(),
-                    comment.getUserName(),
+                    new UserDto(user.getId(),user.getUsername(),user.getEmail()),
                     comment.getContent(),
                     comment.getCreatedAt(),
                     comment.getModifiedAt()
@@ -63,10 +70,11 @@ public class CommentService {
     public CommentDetailResponseDto getComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 없습니다"));
 
+        User user = comment.getUser();
         return new CommentDetailResponseDto(
                 comment.getId(),
                 comment.getSchedule().getId(),
-                comment.getUserName(),
+                new UserDto(user.getId(),user.getUsername(),user.getEmail()),
                 comment.getContent(),
                 comment.getCreatedAt(),
                 comment.getModifiedAt()
@@ -77,12 +85,14 @@ public class CommentService {
     public CommentUpdateResponseDto updateComment(Long commentId, CommentUpdateRequestDto requestDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("댓글이 없습니다"));
 
+        User user = comment.getUser();
+
         comment.updateComment(requestDto.getContent());
 
         return new CommentUpdateResponseDto(
                 comment.getId(),
                 comment.getSchedule().getId(),
-                comment.getUserName(),
+                new UserDto(user.getId(),user.getUsername(),user.getEmail()),
                 comment.getContent(),
                 comment.getCreatedAt(),
                 comment.getModifiedAt()
