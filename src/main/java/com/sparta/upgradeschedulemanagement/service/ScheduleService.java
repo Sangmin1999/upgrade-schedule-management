@@ -41,7 +41,7 @@ public class ScheduleService {
 
         return new ScheduleSaveResponseDto(
                 savedSchedule.getId(),
-                new UserDto(user.getId(),user.getUsername(),user.getEmail()),
+                new UserDto(user.getId(), user.getUsername(), user.getEmail()),
                 savedSchedule.getTitle(),
                 savedSchedule.getContent(),
                 savedSchedule.getCreatedAt(),
@@ -56,7 +56,7 @@ public class ScheduleService {
 
         return new ScheduleDetailResponseDto(
                 schedule.getId(),
-                new UserDto(user.getId(),user.getUsername(),user.getEmail()),
+                new UserDto(user.getId(), user.getUsername(), user.getEmail()),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getCreatedAt(),
@@ -69,7 +69,6 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("일정이 없습니다"));
 
         schedule.update(requestDto.getTitle(), requestDto.getContent());
-
 
 
         return new ScheduleUpdateResponseDto(
@@ -87,17 +86,13 @@ public class ScheduleService {
         Page<Schedule> schedules = scheduleRepository.findAllByOrderByModifiedAtDesc(pageable);
 
         // Schedule 엔티티를 ScheduleResponseDto로 변환하기 위해 map 메서드 사용
-        return schedules.map(schedule -> {
-                    User user = schedule.getUser();
-                    return new SchedulePageResponseDto(
-                            schedule.getTitle(),
-                            schedule.getContent(),
-                            schedule.getCommentList().size(),
-                            new UserDto(user.getId(), user.getUsername(), user.getEmail()),
-                            schedule.getCreatedAt(),
-                            schedule.getModifiedAt()
-                    );
-                }
+        return schedules.map(schedule -> new SchedulePageResponseDto(
+                        schedule.getTitle(),
+                        schedule.getContent(),
+                        schedule.getCommentList().size(),
+                        schedule.getCreatedAt(),
+                        schedule.getModifiedAt()
+                )
         );
     }
 

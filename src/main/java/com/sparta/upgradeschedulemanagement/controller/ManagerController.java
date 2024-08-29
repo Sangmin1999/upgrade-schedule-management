@@ -16,7 +16,7 @@ public class ManagerController {
 
     private final ManagerService managerService;
 
-    @PostMapping("/schedules//{scheduleId}/managers")
+    @PostMapping("/schedules/{scheduleId}/managers")
     public ResponseEntity<ManagerSaveResponseDto> saveManager(@PathVariable Long scheduleId, @RequestBody ManagerSaveRequestDto managerSaveRequestDto) {
         return ResponseEntity.ok(managerService.saveManager(scheduleId,managerSaveRequestDto));
     }
