@@ -34,6 +34,7 @@ public class UserService {
                 savedUser.getUsername(),
                 savedUser.getEmail()
         );
+
     }
 
     public List<UserSimpleResponseDto> getUsers() {
