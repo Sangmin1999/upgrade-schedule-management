@@ -7,4 +7,5 @@ public class LoginRequetDto {
 
     private String email;
     private String password;
+    private String userRole;
 }

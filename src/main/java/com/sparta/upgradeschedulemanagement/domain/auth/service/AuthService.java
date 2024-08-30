@@ -7,6 +7,7 @@ import com.sparta.upgradeschedulemanagement.domain.auth.dto.request.SignupReques
 import com.sparta.upgradeschedulemanagement.domain.auth.dto.response.LoginResponseDto;
 import com.sparta.upgradeschedulemanagement.domain.auth.dto.response.SignupResponseDto;
 import com.sparta.upgradeschedulemanagement.domain.auth.exception.AuthException;
+import com.sparta.upgradeschedulemanagement.domain.user.UserRole;
 import com.sparta.upgradeschedulemanagement.domain.user.entity.User;
 import com.sparta.upgradeschedulemanagement.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,16 +31,27 @@ public class AuthService {
 
         String encodedPassword = passwordEncoder.encode(signupRequestDto.getPassword());
 
-        User newUser = new User(signupRequestDto.getUserName(), signupRequestDto.getEmail(),encodedPassword);
+        UserRole userRole = convertToUserRole(signupRequestDto.getUserRole());
+
+        User newUser = new User(signupRequestDto.getUserName(), signupRequestDto.getEmail(), encodedPassword, userRole);
         User savedUser = userRepository.save(newUser);
 
         String bearerToken = jwtUtil.createToken(
                 savedUser.getId(),
                 savedUser.getUsername(),
-                savedUser.getEmail()
+                savedUser.getEmail(),
+                userRole
         );
 
         return new SignupResponseDto(bearerToken);
+    }
+
+    private UserRole convertToUserRole(String userRoleString) {
+        try {
+            return UserRole.valueOf(userRoleString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("잘못된 역할 정보입니다: " + userRoleString);
+        }
     }
 
     public LoginResponseDto login(LoginRequetDto loginRequetDto) {
@@ -55,7 +67,8 @@ public class AuthService {
         String bearerToken = jwtUtil.createToken(
                 user.getId(),
                 user.getUsername(),
-                user.getEmail()
+                user.getEmail(),
+                convertToUserRole(loginRequetDto.getUserRole())
         );
 
         return new LoginResponseDto((bearerToken));
