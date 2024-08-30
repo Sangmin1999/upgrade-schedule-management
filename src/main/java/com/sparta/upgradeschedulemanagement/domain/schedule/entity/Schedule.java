@@ -24,14 +24,16 @@ public class Schedule extends Timestamped {
     private String title;
     @Column(name = "content")
     private String content;
+    private String weather;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "user_id")
     private User user;
 
-    public Schedule(String title, String content, User user) {
+    public Schedule(String title, String content, String weather, User user) {
         this.title = title;
         this.content = content;
+        this.weather = weather;
         this.user = user;
     }
 

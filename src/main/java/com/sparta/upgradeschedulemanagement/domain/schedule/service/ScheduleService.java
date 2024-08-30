@@ -6,10 +6,10 @@ import com.sparta.upgradeschedulemanagement.domain.schedule.dto.response.Schedul
 import com.sparta.upgradeschedulemanagement.domain.schedule.dto.response.SchedulePageResponseDto;
 import com.sparta.upgradeschedulemanagement.domain.schedule.dto.response.ScheduleSaveResponseDto;
 import com.sparta.upgradeschedulemanagement.domain.schedule.dto.response.ScheduleUpdateResponseDto;
-import com.sparta.upgradeschedulemanagement.dto.user.UserDto;
 import com.sparta.upgradeschedulemanagement.domain.schedule.entity.Schedule;
-import com.sparta.upgradeschedulemanagement.domain.user.entity.User;
 import com.sparta.upgradeschedulemanagement.domain.schedule.repository.ScheduleRepository;
+import com.sparta.upgradeschedulemanagement.domain.user.dto.UserDto;
+import com.sparta.upgradeschedulemanagement.domain.user.entity.User;
 import com.sparta.upgradeschedulemanagement.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +25,7 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
+    private final ScheduleWeatherService scheduleWeatherService;
 
     @Transactional
     public ScheduleSaveResponseDto saveSchedule(ScheduleSaveRequestDto requestDto) {
@@ -32,9 +33,12 @@ public class ScheduleService {
         User user = userRepository.findById(requestDto.getUserId())
                 .orElseThrow(() -> new NullPointerException("User not foound"));
 
+        String todayWeather = scheduleWeatherService.getTodayWeather();
+
         Schedule newSchedule = new Schedule(
                 requestDto.getTitle(),
                 requestDto.getContent(),
+                todayWeather,
                 user
         );
         Schedule savedSchedule = scheduleRepository.save(newSchedule);
@@ -44,6 +48,7 @@ public class ScheduleService {
                 new UserDto(user.getId(), user.getUsername(), user.getEmail()),
                 savedSchedule.getTitle(),
                 savedSchedule.getContent(),
+                todayWeather,
                 savedSchedule.getCreatedAt(),
                 savedSchedule.getModifiedAt()
         );
@@ -59,6 +64,7 @@ public class ScheduleService {
                 new UserDto(user.getId(), user.getUsername(), user.getEmail()),
                 schedule.getTitle(),
                 schedule.getContent(),
+                schedule.getWeather(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
         );
@@ -90,6 +96,7 @@ public class ScheduleService {
                         schedule.getTitle(),
                         schedule.getContent(),
                         schedule.getCommentList().size(),
+                        schedule.getWeather(),
                         schedule.getCreatedAt(),
                         schedule.getModifiedAt()
                 )

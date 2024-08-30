@@ -1,6 +1,6 @@
 package com.sparta.upgradeschedulemanagement.domain.schedule.dto.response;
 
-import com.sparta.upgradeschedulemanagement.dto.user.UserDto;
+import com.sparta.upgradeschedulemanagement.domain.user.dto.UserDto;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -12,6 +12,7 @@ public class ScheduleSaveResponseDto {
     private final UserDto user;
     private final String title;
     private final String content;
+    private final String weather;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
@@ -19,7 +20,7 @@ public class ScheduleSaveResponseDto {
             Long id,
             UserDto user,
             String title,
-            String content,
+            String content, String weather,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
@@ -27,6 +28,7 @@ public class ScheduleSaveResponseDto {
         this.user = user;
         this.title = title;
         this.content = content;
+        this.weather = weather;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
