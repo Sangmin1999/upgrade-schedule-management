@@ -1,10 +1,6 @@
 package com.sparta.upgradeschedulemanagement.domain.user.service;
 
-import com.sparta.upgradeschedulemanagement.config.JwtUtil;
-import com.sparta.upgradeschedulemanagement.config.PasswordEncoder;
-import com.sparta.upgradeschedulemanagement.domain.user.dto.request.UserSaveRequestDto;
 import com.sparta.upgradeschedulemanagement.domain.user.dto.response.UserDetailResponseDto;
-import com.sparta.upgradeschedulemanagement.domain.user.dto.response.UserSaveResponseDto;
 import com.sparta.upgradeschedulemanagement.domain.user.dto.response.UserSimpleResponseDto;
 import com.sparta.upgradeschedulemanagement.domain.user.entity.User;
 import com.sparta.upgradeschedulemanagement.domain.user.repository.UserRepository;
@@ -21,30 +17,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
-    @Transactional
-    public UserSaveResponseDto saveUser(UserSaveRequestDto requestDto) {
-
-        if (userRepository.existsByEmail(requestDto.getEmail())) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다");
-        }
-
-        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
-
-        User newUser = new User(requestDto.getUserName(), requestDto.getEmail(),encodedPassword);
-        User savedUser = userRepository.save(newUser);
-
-        String bearerToken = jwtUtil.createToken(
-                savedUser.getId(),
-                savedUser.getUsername(),
-                savedUser.getEmail()
-        );
-
-        return new UserSaveResponseDto(bearerToken);
-
-    }
 
     public List<UserSimpleResponseDto> getUsers() {
         List<User> userList = userRepository.findAll();
