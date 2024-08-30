@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Slf4j(topic = "JwtUtil")
 @Component
-public class JwtUtil implements Filter {
+public class JwtUtil{
 
     private static final String BEARER_PREFIX = "Bearer ";
     private static final long TOKEN_TIME = 60 * 60 * 1000L; // 60분
